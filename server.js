@@ -7,18 +7,21 @@ const path = require("path");
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
+const heicConvert = require("heic-convert");
 app.use(cors());
 
 app.post("/convert", upload.single("image"), async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded");
-  console.log("HEIC File Received......");
+  console.log("HEIC conversion request received");
   try {
-    const convertedBuffer = await sharp(req.file.buffer)
-      .jpeg({ quality: 80 })
-      .toBuffer();
+    const outputBuffer = await heicConvert({
+      buffer: req.file.buffer,
+      format: "JPEG",
+      quality: 0.8,
+    });
 
     res.set("Content-Type", "image/jpeg");
-    res.send(convertedBuffer);
+    res.send(outputBuffer);
   } catch (err) {
     console.error("Conversion failed", err);
     res.status(500).send("Conversion failed");
