@@ -12,6 +12,7 @@ const upload = multer({ dest: "uploads/" });
 app.post("/convert", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded");
 
+  console.log("HEIC File Recieved...");
   const filePath = path.join(__dirname, "uploads", req.file.filename);
   const fileBuffer = fs.readFileSync(filePath);
 
