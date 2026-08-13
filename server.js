@@ -1,14 +1,20 @@
 const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
-const sharp = require("sharp");
-const path = require("path");
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
 const heicConvert = require("heic-convert");
 app.use(cors());
+
+app.get("/health", (_req, res) => {
+  res.json({
+    ok: true,
+    service: "PAF-HEIC-Image-Converter",
+    checkedAt: new Date().toISOString(),
+  });
+});
 
 app.post("/convert", upload.single("image"), async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded");
@@ -29,4 +35,7 @@ app.post("/convert", upload.single("image"), async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+const HOST = process.env.HOST || "0.0.0.0";
+app.listen(PORT, HOST, () =>
+  console.log(`PAF-HEIC-Image-Converter listening on ${HOST}:${PORT}`)
+);

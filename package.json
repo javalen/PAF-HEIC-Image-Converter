@@ -1,9 +1,11 @@
 {
   "name": "paf-heic-image-converter",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check": "node --check server.js",
+    "start": "node server.js",
+    "test": "npm run check"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +14,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "fs": "^0.0.1-security",
     "heic-convert": "^2.1.0",
-    "multer": "^2.0.2",
-    "path": "^0.12.7",
-    "sharp": "^0.34.3"
+    "multer": "^2.0.2"
   }
 }
